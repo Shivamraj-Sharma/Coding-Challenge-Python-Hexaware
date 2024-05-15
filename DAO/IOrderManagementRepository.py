@@ -92,8 +92,9 @@ class OrderProcessor(IOrderManagementRepository,DBConnection):
                 "SELECT * FROM Orders WHERE userId = ?", (userId)
             )
             order = self.cursor.fetchall()
+            header = [column[0] for column in self.cursor.description]
             if order is None:
                 raise UserNotFound(userId)
-            print(order)
+            print(tabulate(order, headers = header, tablefmt="psql"))
         except Exception as e:
             print(e)
