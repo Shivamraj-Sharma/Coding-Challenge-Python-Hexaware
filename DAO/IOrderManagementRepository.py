@@ -1,27 +1,26 @@
 from abc import ABC, abstractmethod
-from typing import List
+from Util.DBconn import DBConnection
 from Entity.User import User
 from Entity.Product import Product
 from Entity.Order import Order
-from Util.DBconn import DBConnection
 from Exceptions.MyExceptions import UserNotFound , OrderNotFound
 from tabulate import tabulate
 
 class IOrderManagementRepository(ABC):
     @abstractmethod
-    def createOrder(self, user: User, products: Product):
+    def createOrder(self, Order):
         pass
 
     @abstractmethod
-    def cancelOrder(self, userId: int, orderId: int):
+    def cancelOrder(self, orderId):
         pass
 
     @abstractmethod
-    def createProduct(self, user: User, product: Product):
+    def createProduct(self, Product):
         pass
 
     @abstractmethod
-    def createUser(self, user: User):
+    def createUser(self, User):
         pass
 
     @abstractmethod
@@ -29,7 +28,7 @@ class IOrderManagementRepository(ABC):
         pass
 
     @abstractmethod
-    def getOrderByUser(self, user: User):
+    def getOrderByUser(self, User):
         pass
 
 
@@ -92,9 +91,9 @@ class OrderProcessor(IOrderManagementRepository,DBConnection):
             self.cursor.execute(
                 "SELECT * FROM Orders WHERE userId = ?", (userId)
             )
-            product = self.cursor.fetchall()
-            if Order is None:
+            order = self.cursor.fetchall()
+            if order is None:
                 raise UserNotFound(userId)
-            print(product)
+            print(order)
         except Exception as e:
             print(e)
