@@ -1,4 +1,3 @@
-
 from Entity.Order import Order
 from Entity.Product import Product
 from Entity.User import User
